@@ -32,6 +32,7 @@ public class Main {
             // Send response message back
             String responseJson = mapper.writeValueAsString(response);
             sendMessage(responseJson);
+            sendMessage(responseJson);
         }
 
     }
