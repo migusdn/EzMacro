@@ -39,11 +39,34 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>ideauidesigner-maven-plugin</artifactId>
+                    <version>1.0-beta-1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>javac2</goal>
+                            </goals>
+                        </execution>
+                    </executions>
 
+                    <configuration>
+                        <fork>true</fork>
+                        <debug>true</debug>
+                        <failOnError>true</failOnError>
+                    </configuration>
+                </plugin>
             <!-- Skip Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

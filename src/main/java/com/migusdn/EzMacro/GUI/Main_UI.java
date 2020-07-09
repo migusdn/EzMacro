@@ -4,31 +4,25 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Main_UI {
-    public JPanel getPanel1() {
-        return panel1;
-    }
-
-    public void setPanel1(JPanel panel1) {
-        this.panel1 = panel1;
-    }
-
+public class Main_UI implements Runnable {
     private JPanel panel1;
     private JButton newMacroButton;
     private JButton importMacroButton;
-
     public Main_UI() {
         newMacroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("New button click");
+
             }
         });
-        importMacroButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Import button click");
-            }
-        });
+    }
+    @Override
+    public void run(){
+        JFrame MainFrame = new JFrame("App");
+        MainFrame.setContentPane(new Main_UI().panel1);
+        MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MainFrame.pack();
+        MainFrame.setVisible(true);
+
     }
 }

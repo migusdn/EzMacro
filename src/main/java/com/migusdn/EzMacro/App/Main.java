@@ -16,7 +16,7 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        GUI_Thread gui = new GUI_Thread();
+        Main_UI gui = new Main_UI();
         gui.run();
         // Read message
         for(;;) {
@@ -31,7 +31,6 @@ public class Main {
 
             // Send response message back
             String responseJson = mapper.writeValueAsString(response);
-            sendMessage(responseJson);
             sendMessage(responseJson);
         }
 
