@@ -1,27 +1,23 @@
 package com.migusdn.EzMacro.App;
 
-
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.migusdn.EzMacro.GUI.Main_UI;
 import com.migusdn.EzMacro.Protocol.NativeRequest;
 import com.migusdn.EzMacro.Protocol.NativeResponse;
 
-import javax.swing.*;
 
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        Main_UI gui = new Main_UI();
-        gui.run();
+        Window win = new Window();
+        win.run();
         // Read message
         for(;;) {
             String requestJson = readMessage(System.in);
-
+//            gui.test(requestJson);
             ObjectMapper mapper = new ObjectMapper();
             NativeRequest request = mapper.readValue(requestJson, NativeRequest.class);
             //System.out.println("test msg:"+request.getMessage());
