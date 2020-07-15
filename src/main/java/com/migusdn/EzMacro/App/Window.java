@@ -1,7 +1,7 @@
 package com.migusdn.EzMacro.App;
 
 import com.migusdn.EzMacro.GUI.Main_UI;
-import oracle.jvm.hotspot.jfr.JFR;
+import com.migusdn.EzMacro.GUI.TaskList_UI;
 
 import javax.swing.*;
 
@@ -14,13 +14,12 @@ public class Window implements Runnable{
     public void run(){
         new Main_UI().validate();
         frame.setVisible(true);
-//        JFrame MainFrame = new JFrame("App");
-//        MainFrame.setContentPane(panel1);
-//        MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        MainFrame.pack();
-//        MainFrame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public void test(String text){
-        new JOptionPane().showMessageDialog(null,text);
+        if(frame.getTitle().equals("New Macro")) {
+//            new JOptionPane().showMessageDialog(null, text);
+            TaskList_UI.test.addElement(text);
+        }
     }
 }

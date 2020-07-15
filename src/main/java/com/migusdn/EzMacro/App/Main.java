@@ -20,7 +20,7 @@ public class Main {
 //            gui.test(requestJson);
             ObjectMapper mapper = new ObjectMapper();
             NativeRequest request = mapper.readValue(requestJson, NativeRequest.class);
-            //System.out.println("test msg:"+request.getMessage());
+            win.test(requestJson);
             // Process request...
             NativeResponse response = new NativeResponse();
             response.setMessage("Hello, " + request.getMessage() + "!");

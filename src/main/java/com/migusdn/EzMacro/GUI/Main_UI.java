@@ -18,7 +18,10 @@ public class Main_UI implements GUI{
 
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = Window.getFrame();
-                GUI_Utility.change(new TaskList_UI());
+                frame.setTitle("New Macro");
+                TaskList_UI task =  new TaskList_UI();
+                GUI_Utility.change(task);
+                task.test.addElement("추가 성공");
             }
         });
     }
