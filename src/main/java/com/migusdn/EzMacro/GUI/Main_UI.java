@@ -21,7 +21,7 @@ public class Main_UI implements GUI{
                 frame.setTitle("New Macro");
                 TaskList_UI task =  new TaskList_UI();
                 GUI_Utility.change(task);
-                task.test.addElement("추가 성공");
+                task.listModel.addElement("추가 성공");
             }
         });
     }

@@ -19,7 +19,7 @@ public class Window implements Runnable{
     public void test(String text){
         if(frame.getTitle().equals("New Macro")) {
 //            new JOptionPane().showMessageDialog(null, text);
-            TaskList_UI.test.addElement(text);
+            TaskList_UI.listModel.addElement(text);
         }
     }
 }
