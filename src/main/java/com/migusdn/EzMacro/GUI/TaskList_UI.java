@@ -1,6 +1,7 @@
 package com.migusdn.EzMacro.GUI;
 
 import com.migusdn.EzMacro.App.Window;
+import com.migusdn.EzMacro.Util.SeleniumUtility;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -59,17 +60,26 @@ public class TaskList_UI implements GUI{
 
             }
         });
+        //Reset Button
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 listModel.removeAllElements();
             }
         });
+        //Delete Button
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(List.getSelectedIndex());
                 listModel.remove(List.getSelectedIndex());
+            }
+        });
+        //Run Button
+        runButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SeleniumUtility().run();
             }
         });
     }

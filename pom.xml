@@ -32,6 +32,15 @@
             <version>${jackson.version}</version>
         </dependency>
 
+<!--        lombok-->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>

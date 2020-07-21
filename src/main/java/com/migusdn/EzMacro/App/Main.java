@@ -15,7 +15,7 @@ public class Main {
         Window win = new Window();
         win.run();
         // Read message
-        for(;;) {
+        while(true) {
             String requestJson = readMessage(System.in);
 //            gui.test(requestJson);
             ObjectMapper mapper = new ObjectMapper();
