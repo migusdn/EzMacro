@@ -1,13 +1,20 @@
 package com.migusdn.EzMacro.GUI;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.migusdn.EzMacro.App.Window;
+import com.migusdn.EzMacro.Macro.Command;
+import com.migusdn.EzMacro.Macro.Task;
+import com.migusdn.EzMacro.Macro.TaskElement;
 import com.migusdn.EzMacro.Util.SeleniumUtility;
+import com.migusdn.EzMacro.Util.ValidationUtility;
+import lombok.SneakyThrows;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ArrayList;
 
 public class TaskList_UI implements GUI{
     public static DefaultListModel listModel;
@@ -27,7 +34,11 @@ public class TaskList_UI implements GUI{
     private JButton runButton;
     private JButton deleteButton;
     private JLabel Target_URL;
-
+    private JButton changeButton;
+    private JRadioButton changeFrameRadioButton;
+    private JComboBox comboBox1;
+    private ArrayList<TaskElement> elementList = new ArrayList<TaskElement>();
+    private static ObjectMapper objectMapper = new ObjectMapper();
     public TaskList_UI() {
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -48,11 +59,17 @@ public class TaskList_UI implements GUI{
 
         //AddButton
         addButton.addActionListener(new ActionListener() {
+            @SneakyThrows
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(flag);
                 if(flag&&!target.getText().equals("")) {
-                    listModel.addElement(target.getText());
+                    TaskElement taskElement = new TaskElement();
+                    taskElement.setCommand(Command.valueOf(jRadioButtonGroup.getSelection().getActionCommand()));
+                    taskElement.setTarget(target.getText());
+                    elementList.add(taskElement);
+                    listModel.addElement(objectMapper.writeValueAsString(taskElement));
+
                     target.setText("");
                 }
                 else
@@ -67,6 +84,7 @@ public class TaskList_UI implements GUI{
                 listModel.removeAllElements();
             }
         });
+
         //Delete Button
         deleteButton.addActionListener(new ActionListener() {
             @Override
@@ -79,7 +97,22 @@ public class TaskList_UI implements GUI{
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SeleniumUtility().run();
+                Task task = new Task(Target_URL.getText(), elementList);
+
+                new SeleniumUtility(task).run();
+            }
+        });
+        //ChangeUrl
+        changeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String target_url=JOptionPane.showInputDialog("Target Url");
+                while(!ValidationUtility.urlCheck(target_url)) {
+                    if(target_url== null) { return; }
+                    JOptionPane.showMessageDialog(null,"Please enter a valid url.");
+                    target_url = JOptionPane.showInputDialog("Target Url");
+                }
+                Target_URL.setText(target_url);
             }
         });
     }
@@ -92,13 +125,13 @@ public class TaskList_UI implements GUI{
 
         //Radio ButtonGroup
         jRadioButtonGroup = new ButtonGroup();
-        doubleClickRadioButton.setActionCommand("doubleclick");
+        doubleClickRadioButton.setActionCommand("DOUBLE_CLICK");
         jRadioButtonGroup.add(doubleClickRadioButton);
-        sendKeyRadioButton.setActionCommand("sendkey");
+        sendKeyRadioButton.setActionCommand("SEND_KEY");
         jRadioButtonGroup.add(sendKeyRadioButton);
-        sendStringRadioButton.setActionCommand("sendstring");
+        sendStringRadioButton.setActionCommand("SEND_STRING");
         jRadioButtonGroup.add(sendStringRadioButton);
-        clickRadioButton.setActionCommand("click");
+        clickRadioButton.setActionCommand("CLICK");
         jRadioButtonGroup.add(clickRadioButton);
 
         frame.setContentPane(panel1);

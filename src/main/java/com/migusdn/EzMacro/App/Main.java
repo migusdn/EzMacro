@@ -12,6 +12,7 @@ import com.migusdn.EzMacro.Protocol.NativeResponse;
 
 public class Main {
     public static void main(String[] args) throws Exception{
+        //gui window open
         Window win = new Window();
         win.run();
         // Read message

@@ -1,36 +1,60 @@
 package com.migusdn.EzMacro.GUI;
 
 import com.migusdn.EzMacro.App.Window;
-import com.migusdn.EzMacro.Util.GUI_Utility;
+import com.migusdn.EzMacro.Util.GuiUtility;
+import com.migusdn.EzMacro.Util.JsonUtility;
+import com.migusdn.EzMacro.Util.ValidationUtility;
+import com.sun.codemodel.internal.JOp;
+import lombok.SneakyThrows;
 
-import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FilenameFilter;
 
 public class Main_UI implements GUI{
     private JPanel panel1;
     private JButton newMacroButton;
     private JButton importMacroButton;
-    //url valid check
-    private String regex = "^(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/?([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
-
+    private JFileChooser chooser;
     public Main_UI() {
+        chooser = new JFileChooser();
         newMacroButton.addActionListener(new ActionListener() {
             @Override
 
             public void actionPerformed(ActionEvent e) {
 
                 String target_url=JOptionPane.showInputDialog("Target Url");
-                while(!Pattern.matches(regex,target_url)) {
+                while(!ValidationUtility.urlCheck(target_url)) {
                     JOptionPane.showMessageDialog(null,"Please enter a valid url.");
                     target_url = JOptionPane.showInputDialog("Target Url");
                 }
                 JFrame frame = Window.getFrame();
                 frame.setTitle("New Macro");
                 TaskList_UI task =  new TaskList_UI();
-                GUI_Utility.change(task);
+                GuiUtility.change(task);
                 task.setTarget_url(target_url);
+            }
+        });
+        importMacroButton.addActionListener(new ActionListener() {
+            @SneakyThrows
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "side files","side"
+                );
+                chooser.setFileFilter(filter);
+                int ret = chooser.showOpenDialog(null);
+                if(ret!=JFileChooser.APPROVE_OPTION){
+                    JOptionPane.showMessageDialog(null,"파일을 선택해주세요.","경고",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                String filePath = chooser.getSelectedFile().getPath();
+                JsonUtility.ImportFile(filePath);
+                TaskList_UI task =  new TaskList_UI();
+                GuiUtility.change(task);
+
             }
         });
     }
