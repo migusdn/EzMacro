@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class SeleniumUtility implements Runnable{
+    JavascriptExecutor js;
     private WebDriver driver;
     private Task task;
 
@@ -53,4 +54,5 @@ public class SeleniumUtility implements Runnable{
         }
 
     }
+    //public void
 }

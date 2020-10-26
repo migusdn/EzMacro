@@ -2,11 +2,12 @@ package com.migusdn.EzMacro.GUI;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.migusdn.EzMacro.App.Window;
-import com.migusdn.EzMacro.Macro.Command;
+import com.migusdn.EzMacro.Enum.Command;
 import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Macro.TaskElement;
 import com.migusdn.EzMacro.Util.SeleniumUtility;
 import com.migusdn.EzMacro.Util.ValidationUtility;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -33,17 +34,23 @@ public class TaskList_UI implements GUI{
     private JButton resetButton;
     private JButton runButton;
     private JButton deleteButton;
+    @Setter
     private JLabel Target_URL;
     private JButton changeButton;
     private JRadioButton changeFrameRadioButton;
     private JComboBox comboBox1;
     private ArrayList<TaskElement> elementList = new ArrayList<TaskElement>();
     private static ObjectMapper objectMapper = new ObjectMapper();
+    public void setElementList(ArrayList<TaskElement> TElement){
+        this.elementList = TElement;
+        for(int i=0; i<elementList.size();i++){
+            listModel.addElement(elementList.get(i));
+        }
+    }
     public TaskList_UI() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
             }
         });
         target.addFocusListener(new FocusAdapter() {
@@ -69,7 +76,6 @@ public class TaskList_UI implements GUI{
                     taskElement.setTarget(target.getText());
                     elementList.add(taskElement);
                     listModel.addElement(objectMapper.writeValueAsString(taskElement));
-
                     target.setText("");
                 }
                 else
@@ -82,6 +88,7 @@ public class TaskList_UI implements GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 listModel.removeAllElements();
+                elementList.clear();
             }
         });
 
@@ -90,6 +97,7 @@ public class TaskList_UI implements GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(List.getSelectedIndex());
+                elementList.remove(List.getSelectedIndex());
                 listModel.remove(List.getSelectedIndex());
             }
         });
@@ -98,7 +106,6 @@ public class TaskList_UI implements GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Task task = new Task(Target_URL.getText(), elementList);
-
                 new SeleniumUtility(task).run();
             }
         });
@@ -122,18 +129,16 @@ public class TaskList_UI implements GUI{
         JFrame frame = Window.getFrame();
         //listModel init
         listModel = (DefaultListModel)List.getModel();
-
         //Radio ButtonGroup
         jRadioButtonGroup = new ButtonGroup();
-        doubleClickRadioButton.setActionCommand("DOUBLE_CLICK");
+        doubleClickRadioButton.setActionCommand("doubleClick");
         jRadioButtonGroup.add(doubleClickRadioButton);
-        sendKeyRadioButton.setActionCommand("SEND_KEY");
+        sendKeyRadioButton.setActionCommand("sendKey");
         jRadioButtonGroup.add(sendKeyRadioButton);
-        sendStringRadioButton.setActionCommand("SEND_STRING");
+        sendStringRadioButton.setActionCommand("sendString");
         jRadioButtonGroup.add(sendStringRadioButton);
-        clickRadioButton.setActionCommand("CLICK");
+        clickRadioButton.setActionCommand("click");
         jRadioButtonGroup.add(clickRadioButton);
-
         frame.setContentPane(panel1);
         frame.pack();
         //frame size

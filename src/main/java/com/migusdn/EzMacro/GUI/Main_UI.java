@@ -1,6 +1,7 @@
 package com.migusdn.EzMacro.GUI;
 
 import com.migusdn.EzMacro.App.Window;
+import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Util.GuiUtility;
 import com.migusdn.EzMacro.Util.JsonUtility;
 import com.migusdn.EzMacro.Util.ValidationUtility;
@@ -32,9 +33,9 @@ public class Main_UI implements GUI{
                 }
                 JFrame frame = Window.getFrame();
                 frame.setTitle("New Macro");
-                TaskList_UI task =  new TaskList_UI();
-                GuiUtility.change(task);
-                task.setTarget_url(target_url);
+                TaskList_UI taskListUi =  new TaskList_UI();
+                GuiUtility.change(taskListUi);
+                taskListUi.setTarget_url(target_url);
             }
         });
         importMacroButton.addActionListener(new ActionListener() {
@@ -42,7 +43,7 @@ public class Main_UI implements GUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "side files","side"
+                        ".side files","side"
                 );
                 chooser.setFileFilter(filter);
                 int ret = chooser.showOpenDialog(null);
@@ -51,9 +52,11 @@ public class Main_UI implements GUI{
                     return;
                 }
                 String filePath = chooser.getSelectedFile().getPath();
-                JsonUtility.ImportFile(filePath);
+                Task importTask = JsonUtility.ImportFile(filePath);
                 TaskList_UI task =  new TaskList_UI();
                 GuiUtility.change(task);
+                task.setTarget_url(importTask.getTarget_url());
+                task.setElementList(importTask.getTaskList());
 
             }
         });
