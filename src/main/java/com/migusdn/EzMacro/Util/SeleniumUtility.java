@@ -1,6 +1,8 @@
 package com.migusdn.EzMacro.Util;
 
 
+import com.migusdn.EzMacro.Enum.Command;
+import com.migusdn.EzMacro.Enum.TargetType;
 import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Macro.TaskElement;
 import com.migusdn.EzMacro.Setting.UserSetting;
@@ -20,6 +22,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SeleniumUtility implements Runnable{
     JavascriptExecutor js;
@@ -42,7 +45,11 @@ public class SeleniumUtility implements Runnable{
             //get page (= 브라우저에서 url을 주소창에 넣은 후 request 한 것과 같다)
             driver.get(task.getTarget_url());
             //System.out.println(driver.getPageSource());
-            ArrayList<TaskElement> taskList = task.getTaskList();
+            Iterator<TaskElement> taskList= task.getTaskList().iterator();
+            //command에 따라서 한번, target에 따라서 한번
+            while(taskList.hasNext()){
+
+            }
 
         } catch (Exception e) {
 
@@ -54,5 +61,55 @@ public class SeleniumUtility implements Runnable{
         }
 
     }
-    //public void
+    public void commandExec(TaskElement TElement){
+        switch(TElement.getCommand()){
+            case open:{
+                driver.get(task.getTarget_url());
+                break;
+            }
+            case loop:{
+                break;
+            }
+            case click:{
+                targetExec(TElement.getTargetType(), TElement.getTarget()).click();
+                break;
+            }
+            case mouseOver:{
+                break;
+            }
+            case runScript: {
+                js.executeScript(TElement.getTarget());
+                break;
+            }
+            case doubleClick:{
+                break;
+            }
+            case setWindowSize:{
+                break;
+            }
+            case selectFrame:{
+                break;
+            }
+        }
+    }
+    public WebElement targetExec(TargetType targetType, String target){
+        switch(targetType){
+            case css:{
+                return driver.findElement(By.cssSelector(target));
+            }
+            case name:{
+                return driver.findElement(By.name(target));
+            }
+            case time:{
+                break;
+            }
+            case xpath:{
+                return driver.findElement(By.xpath(target));
+            }
+            case linkText:{
+                return driver.findElement(By.linkText(target));
+            }
+        }
+        return null;
+    }
 }

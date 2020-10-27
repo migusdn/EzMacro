@@ -4,6 +4,7 @@ public enum TargetType {
     css,
     xpath,
     linkText,
-    name
+    name,
+    time
 }
 
