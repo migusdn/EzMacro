@@ -39,19 +39,36 @@ public class JsonUtility {
             Iterator it1 = commands.iterator();
             while(it1.hasNext()){
                 JSONObject tmp = (JSONObject) it1.next();
+                Command command = Command.valueOf(tmp.get("command").toString());
                 System.out.println(tmp.get("command"));
                 String[] target = tmp.get("target").toString().split("=");
-
-                try {
+                if(command==Command.open||command==command.runScript){
                     TElement.add(
-                            new TaskElement(
-                                    Command.valueOf((String) tmp.get("command")),
-                                    TargetType.valueOf(target[0]),
-                                    target[1]
+                            new TaskElement(command,
+                            null,
+                            target[0]
                             )
                     );
-                } catch(Exception e){
-                    System.out.println("Error!!\n"+tmp.get("command"));
+                }else {
+                    try {
+                        TElement.add(
+                                new TaskElement(
+                                        command,
+                                        TargetType.valueOf(target[0]),
+                                        target[1]
+                                )
+                        );
+                    } catch (NullPointerException e) {
+                        TElement.add(
+                                new TaskElement(
+                                        command,
+                                        TargetType.valueOf(target[0]),
+                                        null
+                                )
+                        );
+                    } catch (Exception e) {
+                        System.out.println("Error!!\n" + tmp.get("command"));
+                    }
                 }
                 //System.out.println(TElement.toString());
             }
