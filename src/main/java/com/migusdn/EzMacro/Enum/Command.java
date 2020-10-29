@@ -8,5 +8,7 @@ public enum Command {
     mouseOver,
     doubleClick,
     loop,
-    selectFrame
+    selectFrame,
+    mouseOut,
+    mouseUp
 }

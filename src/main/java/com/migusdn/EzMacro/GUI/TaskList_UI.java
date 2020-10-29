@@ -40,7 +40,7 @@ public class TaskList_UI implements GUI{
     private JRadioButton changeFrameRadioButton;
     private JComboBox comboBox1;
     private ArrayList<TaskElement> elementList = new ArrayList<TaskElement>();
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     public void setElementList(ArrayList<TaskElement> TElement){
         this.elementList = TElement;
         for(int i=0; i<elementList.size();i++){

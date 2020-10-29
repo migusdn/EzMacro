@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Window implements Runnable{
     //singleton frame
-    private static JFrame frame = new JFrame("EzMacro");
+    private static final JFrame frame = new JFrame("EzMacro");
 
     public static JFrame getFrame(){ return frame;}
     @Override

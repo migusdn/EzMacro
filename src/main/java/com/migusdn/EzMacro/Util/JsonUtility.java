@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class JsonUtility {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Task ToTask(String JsonString) throws JsonProcessingException {
         Task TaskObj = mapper.readValue(JsonString, Task.class);
@@ -42,7 +42,7 @@ public class JsonUtility {
                 Command command = Command.valueOf(tmp.get("command").toString());
                 System.out.println(tmp.get("command"));
                 String[] target = tmp.get("target").toString().split("=");
-                if(command==Command.open||command==command.runScript){
+                if(command==Command.open||command== Command.runScript){
                     TElement.add(
                             new TaskElement(command,
                             null,

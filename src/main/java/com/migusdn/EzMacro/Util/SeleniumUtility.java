@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SeleniumUtility implements Runnable{
-    JavascriptExecutor js;
-    private WebDriver driver;
-    private Task task;
+    private static JavascriptExecutor js;
+    private static WebDriver driver;
+    private final Task task;
 
-    private String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    private String WEB_DRIVER_PATH = System.getProperty("user.home")+ File.separator+"chromedriver";
+    private final String WEB_DRIVER_ID = "webdriver.chrome.driver";
+    private final String WEB_DRIVER_PATH = System.getProperty("user.home")+ File.separator+"chromedriver";
 
     public SeleniumUtility(Task task){
         super();
@@ -41,14 +41,15 @@ public class SeleniumUtility implements Runnable{
     public void run() {
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         driver = new ChromeDriver();
+        js = (JavascriptExecutor) driver;
         try {
             //get page (= 브라우저에서 url을 주소창에 넣은 후 request 한 것과 같다)
-            driver.get(task.getTarget_url());
+            //driver.get(task.getTarget_url());
             //System.out.println(driver.getPageSource());
             Iterator<TaskElement> taskList= task.getTaskList().iterator();
             //command에 따라서 한번, target에 따라서 한번
             while(taskList.hasNext()){
-
+                commandExec(taskList.next());
             }
 
         } catch (Exception e) {
@@ -61,7 +62,9 @@ public class SeleniumUtility implements Runnable{
         }
 
     }
-    public void commandExec(TaskElement TElement){
+    public void commandExec(TaskElement TElement) throws NullPointerException{
+        TargetType targetType = TElement.getTargetType();
+        String target = TElement.getTarget();
         switch(TElement.getCommand()){
             case open:{
                 driver.get(task.getTarget_url());
@@ -71,43 +74,50 @@ public class SeleniumUtility implements Runnable{
                 break;
             }
             case click:{
-                targetExec(TElement.getTargetType(), TElement.getTarget()).click();
+                driver.findElement(targetExec(targetType, target)).click();
                 break;
             }
             case mouseOver:{
                 break;
             }
             case runScript: {
-                js.executeScript(TElement.getTarget());
+                js.executeScript(target);
                 break;
             }
             case doubleClick:{
+                Actions builder = new Actions(driver);
+//                builder.doubleClick(targetExec(targetType,target)).perform();
                 break;
             }
             case setWindowSize:{
                 break;
             }
+            //index의 경우 간단히 전환하면 가능함
             case selectFrame:{
+                driver.switchTo().frame(Integer.parseInt(target));
                 break;
             }
         }
     }
-    public WebElement targetExec(TargetType targetType, String target){
+    public By targetExec(TargetType targetType, String target){
         switch(targetType){
             case css:{
-                return driver.findElement(By.cssSelector(target));
+                return By.cssSelector(target);
             }
             case name:{
-                return driver.findElement(By.name(target));
+                return By.name(target);
             }
             case time:{
                 break;
             }
             case xpath:{
-                return driver.findElement(By.xpath(target));
+                return By.xpath(target);
             }
             case linkText:{
-                return driver.findElement(By.linkText(target));
+                return By.linkText(target);
+            }
+            case id:{
+                return By.id(target);
             }
         }
         return null;

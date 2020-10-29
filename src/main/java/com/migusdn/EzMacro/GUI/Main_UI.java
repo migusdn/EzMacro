@@ -18,7 +18,7 @@ public class Main_UI implements GUI{
     private JPanel panel1;
     private JButton newMacroButton;
     private JButton importMacroButton;
-    private JFileChooser chooser;
+    private final JFileChooser chooser;
     public Main_UI() {
         chooser = new JFileChooser();
         newMacroButton.addActionListener(new ActionListener() {

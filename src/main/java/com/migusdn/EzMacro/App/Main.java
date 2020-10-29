@@ -3,6 +3,7 @@ package com.migusdn.EzMacro.App;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.migusdn.EzMacro.Protocol.NativeRequest;
@@ -46,12 +47,12 @@ public class Main {
         b = new byte[size];
         in.read(b);
 
-        return new String(b, "UTF-8");
+        return new String(b, StandardCharsets.UTF_8);
     }
 
     private static void sendMessage(String message) throws IOException {
         System.out.write(getBytes(message.length()));
-        System.out.write(message.getBytes("UTF-8"));
+        System.out.write(message.getBytes(StandardCharsets.UTF_8));
         System.out.flush();
     }
 

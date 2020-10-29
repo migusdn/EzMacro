@@ -5,6 +5,7 @@ public enum TargetType {
     xpath,
     linkText,
     name,
-    time
+    time,
+    id
 }
 
