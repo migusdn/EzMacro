@@ -14,7 +14,7 @@ public class Window implements Runnable{
     public void run(){
         new Main_UI().validate();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     public void test(String text){
         if(frame.getTitle().equals("New Macro")) {

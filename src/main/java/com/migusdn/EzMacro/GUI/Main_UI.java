@@ -5,14 +5,12 @@ import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Util.GuiUtility;
 import com.migusdn.EzMacro.Util.JsonUtility;
 import com.migusdn.EzMacro.Util.ValidationUtility;
-import com.sun.codemodel.internal.JOp;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FilenameFilter;
 
 public class Main_UI implements GUI{
     private JPanel panel1;

@@ -10,23 +10,19 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class JsonUtility {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Task ToTask(String JsonString) throws JsonProcessingException {
-        Task TaskObj = mapper.readValue(JsonString, Task.class);
-        return TaskObj;
+        return mapper.readValue(JsonString, Task.class);
     }
-    public static Task ImportFile(String FilePath) throws IOException {
+    public static Task ImportFile(String FilePath){
         Task TaskObj = new Task();
-        ArrayList<TaskElement> TElement = new ArrayList<TaskElement>();
+        ArrayList<TaskElement> TElement = new ArrayList<>();
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader(FilePath)) {
             Object obj = jsonParser.parse(reader);
@@ -36,20 +32,19 @@ public class JsonUtility {
             JSONArray tests = (JSONArray) JObj.get("tests");
             JObj = (JSONObject) tests.get(0);
             JSONArray commands = (JSONArray) JObj.get("commands");
-            Iterator it1 = commands.iterator();
-            while(it1.hasNext()){
-                JSONObject tmp = (JSONObject) it1.next();
+            for (Object o : commands) {
+                JSONObject tmp = (JSONObject) o;
                 Command command = Command.valueOf(tmp.get("command").toString());
                 System.out.println(tmp.get("command"));
                 String[] target = tmp.get("target").toString().split("=");
-                if(command==Command.open||command== Command.runScript){
+                if (command == Command.open || command == Command.runScript) {
                     TElement.add(
                             new TaskElement(command,
-                            null,
-                            target[0]
+                                    null,
+                                    target[0]
                             )
                     );
-                }else {
+                } else {
                     try {
                         TElement.add(
                                 new TaskElement(
@@ -74,8 +69,6 @@ public class JsonUtility {
             }
             TaskObj.setTaskList(TElement);
             TaskObj.setTarget_url(url);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

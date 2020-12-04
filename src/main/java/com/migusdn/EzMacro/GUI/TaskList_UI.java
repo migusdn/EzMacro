@@ -7,7 +7,6 @@ import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Macro.TaskElement;
 import com.migusdn.EzMacro.Util.SeleniumUtility;
 import com.migusdn.EzMacro.Util.ValidationUtility;
-import lombok.Setter;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -34,17 +33,16 @@ public class TaskList_UI implements GUI{
     private JButton resetButton;
     private JButton runButton;
     private JButton deleteButton;
-    @Setter
     private JLabel Target_URL;
     private JButton changeButton;
     private JRadioButton changeFrameRadioButton;
     private JComboBox comboBox1;
-    private ArrayList<TaskElement> elementList = new ArrayList<TaskElement>();
+    private ArrayList<TaskElement> elementList = new ArrayList<>();
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public void setElementList(ArrayList<TaskElement> TElement){
         this.elementList = TElement;
-        for(int i=0; i<elementList.size();i++){
-            listModel.addElement(elementList.get(i));
+        for (TaskElement taskElement : elementList) {
+            listModel.addElement(taskElement);
         }
     }
     public TaskList_UI() {
