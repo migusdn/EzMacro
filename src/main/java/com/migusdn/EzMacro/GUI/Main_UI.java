@@ -2,7 +2,7 @@ package com.migusdn.EzMacro.GUI;
 
 import com.migusdn.EzMacro.App.Window;
 import com.migusdn.EzMacro.Macro.Task;
-import com.migusdn.EzMacro.Util.GuiUtility;
+import com.migusdn.EzMacro.Util.frameChanger;
 import com.migusdn.EzMacro.Util.JsonUtility;
 import com.migusdn.EzMacro.Util.ValidationUtility;
 import lombok.SneakyThrows;
@@ -32,7 +32,7 @@ public class Main_UI implements GUI{
                 JFrame frame = Window.getFrame();
                 frame.setTitle("New Macro");
                 TaskList_UI taskListUi =  new TaskList_UI();
-                GuiUtility.change(taskListUi);
+                frameChanger.change(taskListUi);
                 taskListUi.setTarget_url(target_url);
             }
         });
@@ -52,7 +52,7 @@ public class Main_UI implements GUI{
                 String filePath = chooser.getSelectedFile().getPath();
                 Task importTask = JsonUtility.ImportFile(filePath);
                 TaskList_UI task =  new TaskList_UI();
-                GuiUtility.change(task);
+                frameChanger.change(task);
                 task.setTarget_url(importTask.getTarget_url());
                 task.setElementList(importTask.getTaskList());
 

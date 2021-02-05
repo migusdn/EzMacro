@@ -8,14 +8,19 @@ import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.migusdn.EzMacro.Protocol.NativeRequest;
 import com.migusdn.EzMacro.Protocol.NativeResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Main {
+    protected static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws Exception{
         //gui window open
+        logger.info("test str");
         Window win = new Window();
         win.run();
+        //System.setProperty("apple.laf.useScreenMenuBar", "true");
         // Read message
         while(true) {
             String requestJson = readMessage(System.in);

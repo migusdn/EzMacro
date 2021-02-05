@@ -3,6 +3,7 @@ package com.migusdn.EzMacro.GUI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.migusdn.EzMacro.App.Window;
 import com.migusdn.EzMacro.Enum.Command;
+import com.migusdn.EzMacro.Enum.TargetType;
 import com.migusdn.EzMacro.Macro.Task;
 import com.migusdn.EzMacro.Macro.TaskElement;
 import com.migusdn.EzMacro.Util.SeleniumUtility;
@@ -36,7 +37,7 @@ public class TaskList_UI implements GUI{
     private JLabel Target_URL;
     private JButton changeButton;
     private JRadioButton changeFrameRadioButton;
-    private JComboBox comboBox1;
+    private JComboBox targetType;
     private ArrayList<TaskElement> elementList = new ArrayList<>();
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public void setElementList(ArrayList<TaskElement> TElement){
@@ -72,6 +73,7 @@ public class TaskList_UI implements GUI{
                     TaskElement taskElement = new TaskElement();
                     taskElement.setCommand(Command.valueOf(jRadioButtonGroup.getSelection().getActionCommand()));
                     taskElement.setTarget(target.getText());
+                    taskElement.setTargetType(TargetType.valueOf(targetType.getSelectedItem().toString()));
                     elementList.add(taskElement);
                     listModel.addElement(objectMapper.writeValueAsString(taskElement));
                     target.setText("");

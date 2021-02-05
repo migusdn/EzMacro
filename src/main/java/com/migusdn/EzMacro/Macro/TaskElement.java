@@ -12,5 +12,4 @@ public class TaskElement {
     private Command command;
     private TargetType targetType;
     private String target;
-    //private String command;
 }

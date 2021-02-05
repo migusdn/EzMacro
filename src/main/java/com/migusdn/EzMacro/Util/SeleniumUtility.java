@@ -38,10 +38,8 @@ public class SeleniumUtility implements Runnable{
             driver.close();
         }
     }
-    public void commandExec(TaskElement TElement) throws NullPointerException{
-        TargetType targetType = TElement.getTargetType();
-        String target = TElement.getTarget();
-        switch(TElement.getCommand()){
+    public void commandExec(TaskElement taskElement) throws NullPointerException{
+        switch(taskElement.getCommand()){
             case open:{
                 driver.get(task.getTarget_url());
                 break;
@@ -50,14 +48,15 @@ public class SeleniumUtility implements Runnable{
                 break;
             }
             case click:{
-                driver.findElement(targetExec(targetType, target)).click();
+                driver.findElement(targetExec(taskElement)).click();
                 break;
             }
             case mouseOver:{
+
                 break;
             }
             case runScript: {
-                js.executeScript(target);
+                js.executeScript(taskElement.getTarget());
                 break;
             }
             case doubleClick:{
@@ -70,12 +69,14 @@ public class SeleniumUtility implements Runnable{
             }
             //index의 경우 간단히 전환하면 가능함
             case selectFrame:{
-                driver.switchTo().frame(Integer.parseInt(target));
+                driver.switchTo().frame(Integer.parseInt(taskElement.getTarget()));
                 break;
             }
         }
     }
-    public By targetExec(TargetType targetType, String target){
+    public By targetExec(TaskElement taskElement){
+        TargetType targetType = taskElement.getTargetType();
+        String target = taskElement.getTarget();
         switch(targetType){
             case css:{
                 return By.cssSelector(target);
@@ -89,7 +90,7 @@ public class SeleniumUtility implements Runnable{
             case xpath:{
                 return By.xpath(target);
             }
-            case linkText:{
+            case linktext:{
                 return By.linkText(target);
             }
             case id:{

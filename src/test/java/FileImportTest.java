@@ -32,8 +32,6 @@ public class FileImportTest {
             Object obj = jsonParser.parse(reader);
             JSONObject jobj = (JSONObject) obj;
             JSONArray jArr = (JSONArray)((JSONObject) obj).get("urls");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

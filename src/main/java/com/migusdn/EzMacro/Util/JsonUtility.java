@@ -20,9 +20,17 @@ public class JsonUtility {
     public static Task ToTask(String JsonString) throws JsonProcessingException {
         return mapper.readValue(JsonString, Task.class);
     }
+//    private static TaskElement taskElementInit(Command command, TargetType targetType, String target){
+//        return new TaskElement(
+//                command,
+//                targetType,
+//                target
+//        );
+//    }
+
     public static Task ImportFile(String FilePath){
         Task TaskObj = new Task();
-        ArrayList<TaskElement> TElement = new ArrayList<>();
+        ArrayList<TaskElement> taskElements = new ArrayList<>();
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader(FilePath)) {
             Object obj = jsonParser.parse(reader);
@@ -38,7 +46,7 @@ public class JsonUtility {
                 System.out.println(tmp.get("command"));
                 String[] target = tmp.get("target").toString().split("=");
                 if (command == Command.open || command == Command.runScript) {
-                    TElement.add(
+                    taskElements.add(
                             new TaskElement(command,
                                     null,
                                     target[0]
@@ -46,7 +54,7 @@ public class JsonUtility {
                     );
                 } else {
                     try {
-                        TElement.add(
+                        taskElements.add(
                                 new TaskElement(
                                         command,
                                         TargetType.valueOf(target[0]),
@@ -54,7 +62,7 @@ public class JsonUtility {
                                 )
                         );
                     } catch (NullPointerException e) {
-                        TElement.add(
+                        taskElements.add(
                                 new TaskElement(
                                         command,
                                         TargetType.valueOf(target[0]),
@@ -67,7 +75,7 @@ public class JsonUtility {
                 }
                 //System.out.println(TElement.toString());
             }
-            TaskObj.setTaskList(TElement);
+            TaskObj.setTaskList(taskElements);
             TaskObj.setTarget_url(url);
         } catch (IOException | ParseException e) {
             e.printStackTrace();

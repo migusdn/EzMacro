@@ -3,7 +3,7 @@ package com.migusdn.EzMacro.Enum;
 public enum TargetType {
     css,
     xpath,
-    linkText,
+    linktext,
     name,
     time,
     id
